@@ -10,9 +10,10 @@
     <script src="{% static 'assets/js/loader.js' %}"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'light/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'light/forms/switches.css' %}">
     <script src="{% static 'plugins/notification/snackbar/snackbar.min.js' %}"></script>
     <link href="{% static 'plugins/notification/snackbar/snackbar.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'light/plugins.css' %}" rel="stylesheet" type="text/css" />
     <!-- load any page wise jquery or stylesheet -->
 
     {% block custom_js_css_link %}
@@ -90,6 +91,41 @@
     $(document).ready(function() {
         App.init();
     });
+    </script>
+    <script>
+    if (getTheme() == 'light') {
+        document.getElementById("themeCheckBox").checked = false;
+    }
+    else {
+        document.getElementById("themeCheckBox").checked = true;
+        var links = document.getElementsByTagName("link");
+        for (var i = 0; i < links.length; i++) {
+            links[i].href=links[i].href.replace("light", "dark");
+        }
+    }
+    function getTheme(){
+        if (localStorage.getItem('theme') == 'light') {
+            //set light theme
+            return 'light';
+        }
+        else {
+            // dark theme
+            return 'dark';
+        }
+    }
+    function changeTheme(object)
+    {
+        if (object.checked) {
+            //dark theme checked
+            localStorage.setItem('theme', 'dark');
+            location.reload();
+        }
+        else {
+            //light theme checked
+            localStorage.setItem('theme', 'light');
+            location.reload();
+        }
+    }
     </script>
     <script src="{% static 'assets/js/custom.js' %}"></script>
     {% block page_level_script %}
